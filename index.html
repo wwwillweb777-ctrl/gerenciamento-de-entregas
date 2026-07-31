@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Ponto - AW Construções</title>
+  <style>
+    :root {--cor-primaria:#2563eb;--cor-sucesso:#16a34a;--cor-erro:#dc2626;--cor-fundo:#f8fafc;--cor-texto:#1e293b;}
+    * {margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Roboto,sans-serif;}
+    body {background:var(--cor-fundo);display:grid;place-items:center;min-height:100vh;padding:1.5rem;}
+    .card {background:white;width:100%;max-width:480px;padding:2.5rem 2rem;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,0.1);}
+    .cabecalho {text-align:center;margin-bottom:2rem;}
+    .cabecalho img {max-width:320px;width:100%;height:auto;margin:0 auto;border-radius:8px;}
+    h1 {text-align:center;color:var(--cor-texto);margin-bottom:2.2rem;font-size:1.75rem;font-weight:600;}
+    .campo {margin-bottom:1.6rem;}
+    label {display:block;margin-bottom:0.6rem;font-weight:500;color:var(--cor-texto);font-size:1.1rem;}
+    input,select {width:100%;padding:1.1rem;border:1px solid #d1d5db;border-radius:10px;font-size:1.1rem;background:#f9fafb;}
+    input:focus,select:focus {outline:none;border-color:var(--cor-primaria);box-shadow:0 0 0 3px rgba(37,99,235,0.15);}
+    button {width:100%;padding:1.2rem;background:var(--cor-primaria);color:white;border:none;border-radius:10px;font-size:1.2rem;font-weight:600;cursor:pointer;margin-top:0.5rem;}
+    button:hover {background:#1d4ed8;}
+    button:disabled {background:#93c5fd;cursor:not-allowed;}
+    #mensagem {margin-top:1.5rem;padding:1rem;border-radius:10px;text-align:center;font-weight:500;display:none;}
+    .sucesso {background:#f0fdf4;color:var(--cor-sucesso);}
+    .erro {background:#fef2f2;color:var(--cor-erro);}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="cabecalho">
+      <img src="https://github.com/wwwillweb777-ctrl/AW-oficial/blob/main/Logo_da_AW_20260527_065239%20(1).webp?raw=true" alt="AW Construções">
+    </div>
+    <h1>📋 Registro de Ponto</h1>
+
+    <div class="campo">
+      <label for="nome">Nome Completo</label>
+      <input type="text" id="nome" placeholder="Digite seu nome completo" required>
+    </div>
+
+    <div class="campo">
+      <label for="tipo">Tipo de Registro</label>
+      <select id="tipo" required>
+        <option value="">Selecione...</option>
+        <option value="Entrada">Entrada</option>
+        <option value="Saída para Almoço">Saída para Almoço</option>
+        <option value="Volta do Almoço">Volta do Almoço</option>
+        <option value="Saída Final">Saída Final</option>
+      </select>
+    </div>
+
+    <button id="btnRegistrar">Registrar</button>
+    <div id="mensagem"></div>
+  </div>
+
+  <script>
+    // ✅ LINK NOVO DO APPS SCRIPT INSERIDO AQUI
+    const URL_API = "https://script.google.com/macros/s/AKfycbxIFuAoO1efInjU78z3NGw3gqhjq-QtzAchO4HpL3PAAnDPga5Moit8NS4NsrBr9BUx/exec";
+    const fuso = "America/Sao_Paulo";
+
+    const nomeEl = document.getElementById("nome");
+    const tipoEl = document.getElementById("tipo");
+    const btnEl = document.getElementById("btnRegistrar");
+    const msgEl = document.getElementById("mensagem");
+
+    async function enviarRegistro() {
+      const nome = nomeEl.value.trim();
+      const tipo = tipoEl.value;
+
+      if (!nome || !tipo) { 
+        mostrarMensagem("⚠️ Preencha todos os campos antes de registrar!", "erro"); 
+        return; 
+      }
+
+      btnEl.disabled = true; 
+      btnEl.textContent = "Enviando...";
+      msgEl.style.display = "none";
+
+      try {
+        const agora = new Date();
+        const data = agora.toLocaleDateString("pt-BR", { timeZone: fuso });
+        const hora = agora.toLocaleTimeString("pt-BR", { timeZone: fuso, hour12: false });
+
+        // ✅ Envio ajustado para funcionar sem erros
+        await fetch(URL_API, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ data, hora, nome, tipo })
+        });
+
+        mostrarMensagem("✅ Registro salvo com sucesso na planilha!", "sucesso");
+        nomeEl.value = ""; 
+        tipoEl.value = "";
+
+      } catch (erro) {
+        mostrarMensagem("❌ Não foi possível salvar. Tente novamente.", "erro");
+        console.error("Detalhe:", erro);
+      } finally {
+        btnEl.disabled = false; 
+        btnEl.textContent = "Registrar";
+      }
+    }
+
+    function mostrarMensagem(texto, tipo) {
+      msgEl.textContent = texto; 
+      msgEl.className = tipo; 
+      msgEl.style.display = "block";
+      setTimeout(() => msgEl.style.display = "none", 5000);
+    }
+
+    btnEl.addEventListener("click", enviarRegistro);
+  </script>
+</body>
+</html>
