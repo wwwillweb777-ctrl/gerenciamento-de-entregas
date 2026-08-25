@@ -27,8 +27,7 @@
 <body>
   <div class="card">
     <div class="cabecalho">
-      <!-- ✅ LINK DA IMAGEM TROCADO -->
-      <img src="https://i.postimg.cc/j2bPB8BQ/IMG-20260813-210508-(1)-(1)-(1).webp" alt="AW Construções">
+      <img src="https://github.com/wwwillweb777-ctrl/AW-oficial/blob/main/Logo_da_AW_20260527_065239%20(1).webp?raw=true" alt="AW Construções">
     </div>
     <h1>📋 Registro de Ponto</h1>
 
@@ -53,6 +52,7 @@
   </div>
 
   <script>
+    // ✅ LINK NOVO DO APPS SCRIPT INSERIDO AQUI
     const URL_API = "https://script.google.com/macros/s/AKfycbxIFuAoO1efInjU78z3NGw3gqhjq-QtzAchO4HpL3PAAnDPga5Moit8NS4NsrBr9BUx/exec";
     const fuso = "America/Sao_Paulo";
 
@@ -79,6 +79,7 @@
         const data = agora.toLocaleDateString("pt-BR", { timeZone: fuso });
         const hora = agora.toLocaleTimeString("pt-BR", { timeZone: fuso, hour12: false });
 
+        // ✅ Envio ajustado para funcionar sem erros
         await fetch(URL_API, {
           method: "POST",
           mode: "no-cors",
