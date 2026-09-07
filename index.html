@@ -31,38 +31,79 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
         body { background-color: #0a2463; color: #fff; min-height: 100vh; padding: 20px; }
-        .cabecalho-img { width: 100%; max-width: 450px; height: auto; object-fit: contain; border-radius: 16px; display: block; margin: 0 auto 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); background: #fff; padding: 10px; }
+        /* 🖼️ CABEÇALHO — IMAGEM CORRIGIDA E CENTRALIZADA */
+        .cabecalho-img { 
+            width: 100%; 
+            max-width: 400px; 
+            height: auto; 
+            object-fit: contain; 
+            display: block; 
+            margin: 0 auto 20px; 
+            background: #fff; 
+            padding: 15px; 
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
         .container { max-width: 450px; margin: 0 auto; background: #fff; color: #000; padding: 25px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
-        h1 { text-align: center; color: #0a2463; margin-bottom: 25px; font-size: 22px; }
-        .caixa-adm { background: linear-gradient(135deg, #fff3cd, #ffe69c); border: 2px solid #b8860b; border-radius: 12px; padding: 15px; margin-bottom: 20px; }
-        .caixa-adm h3 { color: #856404; font-size: 16px; margin-bottom: 10px; text-align: center; }
-        .input-group { margin-bottom: 15px; position: relative; }
-        label { display: block; margin-bottom: 6px; font-weight: 600; color: #333; }
+        h1 { text-align: center; color: #0a2463; margin-bottom: 25px; font-size: 22px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .caixa-adm { background: linear-gradient(135deg, #fff3cd, #ffe69c); border: 2px solid #b8860b; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .caixa-adm h3 { color: #856404; font-size: 18px; margin-bottom: 15px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .input-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 16px; }
+        /* 👁️ CAMPO DE SENHA — OLHO BEM NA BOLINHA AMARELA! */
         .input-wrapper { position: relative; width: 100%; }
-        input { width: 100%; padding: 12px 45px 12px 12px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; }
+        input { 
+            width: 100%; 
+            padding: 14px 50px 14px 16px; /* Espaço extra à direita para o olho */
+            border: 2px solid #ddd; 
+            border-radius: 12px; 
+            font-size: 16px; 
+            background: #fff;
+            color: #333;
+            transition: border-color 0.2s;
+        }
         input:focus { outline: none; border-color: #0a2463; }
+        /* 🎯 OLHO EXATAMENTE ONDE ESTÁ A BOLINHA AMARELA — ALINHADO À DIREITA! */
         .btn-olho { 
             position: absolute; 
-            right: 12px; 
+            right: 16px; /* ✅ Exatamente na bolinha amarela! */
             top: 50%; 
             transform: translateY(-50%); 
-            background: none; 
+            background: transparent; 
             border: none; 
-            font-size: 22px; 
+            font-size: 24px; 
             cursor: pointer; 
             padding: 0; 
-            color: #666; 
+            color: #888; 
             z-index: 10; 
             line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
         }
-        button { width: 100%; padding: 14px; background-color: #0a2463; color: #fff; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        .btn-olho:hover { color: #0a2463; }
+        button { 
+            width: 100%; 
+            padding: 15px; 
+            background-color: #0a2463; 
+            color: #fff; 
+            border: none; 
+            border-radius: 12px; 
+            font-size: 18px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            margin-top: 5px; 
+            transition: background-color 0.2s;
+        }
         button:hover { background-color: #0d3080; }
         button:disabled { background: #93c5fd; cursor: not-allowed; }
-        .btn-adm { background-color: #b8860b; font-size: 15px; margin-top: 8px; }
+        .btn-adm { background-color: #b8860b; font-size: 17px; margin-top: 10px; }
         .btn-adm:hover { background-color: #9c730a; }
-        .btn-voltar-adm { background: #6c757d; padding: 10px 15px; font-size: 15px; width: auto; margin: 0 0 15px 0; display: flex; align-items: center; gap: 8px; }
+        .btn-voltar-adm { background: #6c757d; padding: 12px 16px; font-size: 15px; width: auto; margin: 0 0 15px 0; display: flex; align-items: center; gap: 8px; border-radius: 10px; }
         .btn-voltar-adm:hover { background: #5a6268; }
-        .btn-sair { background: #dc3545; padding: 10px 15px; font-size: 15px; width: auto; margin: 0 0 15px 0; }
+        .btn-sair { background: #dc3545; padding: 12px 16px; font-size: 15px; width: auto; margin: 0 0 15px 0; border-radius: 10px; }
         .btn-sair:hover { background: #c82333; }
         .resumo { margin-top: 25px; padding: 20px; background: #f0f4f8; border-radius: 12px; }
         .resumo h2 { font-size: 18px; margin-bottom: 15px; color: #0a2463; }
@@ -70,54 +111,68 @@
         .entrega-item { padding: 12px 10px; border-bottom: 1px solid #ddd; }
         .entrega-cima { display: flex; justify-content: space-between; align-items: center; }
         .entrega-baixo { font-size: 14px; color: #555; margin-top: 4px; }
-        .btn-excluir { background: #dc3545; padding: 6px 10px; font-size: 14px; width: auto; border-radius: 6px; border: none; }
+        .btn-excluir { background: #dc3545; padding: 8px 12px; font-size: 14px; width: auto; border-radius: 8px; border: none; }
         .btn-excluir:hover { background: #c82333; }
         .data-hora { font-size: 12px; color: #888; }
         .tela-senha { display: block; } .tela-dados { display: none; } .tela-admin { display: none; }
-        .usuario-atual { background: #e6f2ff; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-weight: bold; color: #0a2463; font-size: 18px; }
+        .usuario-atual { background: #e6f2ff; padding: 12px; border-radius: 10px; margin-bottom: 15px; text-align: center; font-weight: bold; color: #0a2463; font-size: 18px; }
         .painel-admin { background: #fff8e1; border: 2px solid #b8860b; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
         .painel-admin h3 { color: #856404; text-align: center; margin-bottom: 15px; font-size: 18px; }
-        .usuario-linha { padding: 12px; border-bottom: 1px solid #ffc107; }
-        .usuario-nome { font-weight: bold; font-size: 16px; margin-bottom: 4px; }
-        .usuario-senha { font-size: 14px; color: #b8860b; margin-bottom: 8px; }
-        .usuario-acoes { display: flex; gap: 8px; flex-wrap: wrap; }
-        .btn-entrar { background: #28a745; padding: 6px 10px; font-size: 13px; width: auto; border: none; border-radius: 6px; }
+        .usuario-linha { padding: 15px; border-bottom: 1px solid #ffc107; border-radius: 8px; }
+        .usuario-nome { font-weight: bold; font-size: 16px; margin-bottom: 5px; }
+        .usuario-senha { font-size: 15px; color: #b8860b; margin-bottom: 10px; }
+        .usuario-acoes { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-entrar { background: #28a745; padding: 8px 14px; font-size: 14px; width: auto; border: none; border-radius: 8px; }
         .btn-entrar:hover { background: #218838; }
-        .btn-nova-senha { background: #007bff; padding: 6px 10px; font-size: 13px; width: auto; border: none; border-radius: 6px; }
+        .btn-nova-senha { background: #007bff; padding: 8px 14px; font-size: 14px; width: auto; border: none; border-radius: 8px; }
         .btn-nova-senha:hover { background: #0056b3; }
-        .btn-excluir-usuario { background: #dc3545; padding: 6px 10px; font-size: 13px; width: auto; border: none; border-radius: 6px; }
+        .btn-excluir-usuario { background: #dc3545; padding: 8px 14px; font-size: 14px; width: auto; border: none; border-radius: 8px; }
         .btn-excluir-usuario:hover { background: #c82333; }
-        .sem-usuarios { text-align: center; color: #888; padding: 20px; }
-        .mensagem { padding: 12px; border-radius: 8px; margin: 15px 0; text-align: center; font-weight: 500; display: none; }
+        .sem-usuarios { text-align: center; color: #888; padding: 30px; }
+        .mensagem { padding: 15px; border-radius: 10px; margin: 15px 0; text-align: center; font-weight: 500; display: none; font-size: 16px; }
         .sucesso { background: #d1fae5; color: #065f46; display: block; }
         .erro { background: #fee2e2; color: #991b1b; display: block; }
-        .carregando { text-align: center; padding: 20px; color: #0a2463; font-weight: bold; }
+        .carregando { text-align: center; padding: 30px; color: #0a2463; font-weight: bold; font-size: 18px; }
     </style>
 </head>
 <body>
-    <img src="https://i.postimg.cc/tCVbrtpX/IMG-20260907-162841.webp" alt="Pizzaria & Hamburgueria Juninho Delivery" class="cabecalho-img">
+    <!-- 🖼️ IMAGEM DO CABEÇALHO — CORRIGIDA E OTIMIZADA -->
+    <img 
+        src="https://i.postimg.cc/tCVbrtpX/IMG-20260907-162841.webp" 
+        alt="Pizzaria e Hamburgueria Juninho Delivery" 
+        class="cabecalho-img"
+        loading="lazy"
+        onerror="this.src='https://via.placeholder.com/400x120/FFFFFF/0A2463?text=JUNINHO+DELIVERY'"
+    >
+    
     <div class="container">
         <!-- 🔐 TELA DE ACESSO -->
         <div id="telaSenha" class="tela-senha">
             <h1>🔐 Acesso ao Sistema</h1>
+            
             <div class="input-group">
                 <label>Nome do Entregador</label>
                 <input type="text" id="nomeUsuario" placeholder="Digite seu nome...">
             </div>
+            
             <div class="input-group">
                 <label>Senha de Acesso</label>
                 <div class="input-wrapper">
                     <input type="password" id="senhaUsuario" placeholder="Crie ou digite sua senha...">
+                    <!-- 👁️ OLHO EXATAMENTE NA BOLINHA AMARELA! -->
                     <button type="button" class="btn-olho" onclick="mostrarSenha('senhaUsuario', this)">👁️</button>
                 </div>
             </div>
+            
             <button onclick="entrarSistema()">🔑 Entrar / Criar Conta</button>
+            
             <div class="caixa-adm">
                 <h3>👑 Área Administrativa</h3>
                 <div class="input-group">
                     <label>Senha Mestra</label>
                     <div class="input-wrapper">
                         <input type="password" id="senhaMestraInput" placeholder="Digite a senha mestra...">
+                        <!-- 👁️ OLHO EXATAMENTE NA BOLINHA AMARELA — TAMBÉM EMBAIXO! -->
                         <button type="button" class="btn-olho" onclick="mostrarSenha('senhaMestraInput', this)">👁️</button>
                     </div>
                 </div>
@@ -145,7 +200,7 @@
             
             <div class="input-group"><label>Nome do Cliente</label><input type="text" id="nomeCliente" placeholder="Nome do cliente..."></div>
             <div class="input-group"><label>Bairro / Região</label><input type="text" id="bairro" placeholder="Bairro..."></div>
-            <div class="input-group"><label>Valor da Taxa (R$)</label><input type="number" id="valorTaxa" step="0.01" placeholder="5.00"></div>
+            <div class="input-group"><label>Valor da Taxa (R$)</label><input type="number" id="valorTaxa" step="0.01" placeholder="5,00"></div>
             
             <button id="btnRegistrar" onclick="registrarEntrega()">✅ Registrar Entrega</button>
             <div id="mensagem" class="mensagem"></div>
@@ -178,7 +233,7 @@
             ({ db, ref, set, get, push, remove, onValue, off } = window.firebaseDB);
         }
 
-        // 👁️ Mostrar/esconder senha — ícone alinhado perfeitamente!
+        // 👁️ Mostrar/esconder senha — ícone na bolinha amarela!
         function mostrarSenha(idInput, botao) {
             const input = document.getElementById(idInput);
             input.type = input.type === 'password' ? 'text' : 'password';
