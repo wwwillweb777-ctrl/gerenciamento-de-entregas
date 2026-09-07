@@ -38,9 +38,23 @@
         .caixa-adm h3 { color: #856404; font-size: 16px; margin-bottom: 10px; text-align: center; }
         .input-group { margin-bottom: 15px; position: relative; }
         label { display: block; margin-bottom: 6px; font-weight: 600; color: #333; }
+        .input-wrapper { position: relative; width: 100%; }
         input { width: 100%; padding: 12px 45px 12px 12px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; }
         input:focus { outline: none; border-color: #0a2463; }
-        .btn-olho { position: absolute; right: 12px; top: 38px; background: none; border: none; font-size: 24px; cursor: pointer; padding: 0; color: #666; z-index: 10; }
+        .btn-olho { 
+            position: absolute; 
+            right: 12px; 
+            top: 50%; 
+            transform: translateY(-50%); 
+            background: none; 
+            border: none; 
+            font-size: 22px; 
+            cursor: pointer; 
+            padding: 0; 
+            color: #666; 
+            z-index: 10; 
+            line-height: 1;
+        }
         button { width: 100%; padding: 14px; background-color: #0a2463; color: #fff; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 5px; }
         button:hover { background-color: #0d3080; }
         button:disabled { background: #93c5fd; cursor: not-allowed; }
@@ -92,15 +106,20 @@
             </div>
             <div class="input-group">
                 <label>Senha de Acesso</label>
-                <input type="password" id="senhaUsuario" placeholder="Crie ou digite sua senha...">
-                <button type="button" class="btn-olho" onclick="mostrarSenha('senhaUsuario', this)">🙈</button>
+                <div class="input-wrapper">
+                    <input type="password" id="senhaUsuario" placeholder="Crie ou digite sua senha...">
+                    <button type="button" class="btn-olho" onclick="mostrarSenha('senhaUsuario', this)">👁️</button>
+                </div>
             </div>
             <button onclick="entrarSistema()">🔑 Entrar / Criar Conta</button>
             <div class="caixa-adm">
                 <h3>👑 Área Administrativa</h3>
                 <div class="input-group">
-                    <input type="password" id="senhaMestraInput" placeholder="Digite a senha mestra...">
-                    <button type="button" class="btn-olho" onclick="mostrarSenha('senhaMestraInput', this)">🙈</button>
+                    <label>Senha Mestra</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="senhaMestraInput" placeholder="Digite a senha mestra...">
+                        <button type="button" class="btn-olho" onclick="mostrarSenha('senhaMestraInput', this)">👁️</button>
+                    </div>
                 </div>
                 <button class="btn-adm" onclick="entrarAdministrador()">🔓 Acessar Painel Completo</button>
             </div>
@@ -159,11 +178,11 @@
             ({ db, ref, set, get, push, remove, onValue, off } = window.firebaseDB);
         }
 
-        // 👁️ Mostrar/esconder senha
+        // 👁️ Mostrar/esconder senha — ícone alinhado perfeitamente!
         function mostrarSenha(idInput, botao) {
             const input = document.getElementById(idInput);
             input.type = input.type === 'password' ? 'text' : 'password';
-            botao.textContent = input.type === 'password' ? '🙈' : '👁️';
+            botao.textContent = input.type === 'password' ? '👁️' : '🙈';
         }
 
         // 💾 Mostrar mensagem
