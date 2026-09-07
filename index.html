@@ -4,378 +4,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Entregas — Juninho Delivery</title>
+    <!-- 🔥 FIREBASE v9+ (Modular) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+        import { getDatabase, ref, set, get, push, remove, onValue, off } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
+
+        // ✅ SUA CONFIGURAÇÃO DO FIREBASE — JÁ PREENCHIDA!
+        const firebaseConfig = {
+            apiKey: "AIzaSyDw8DczcbV83UEgmEoUI0iLkNueqwD0Bs8",
+            authDomain: "site-wc-construcoes.firebaseapp.com",
+            databaseURL: "https://site-wc-construcoes-default-rtdb.firebaseio.com",
+            projectId: "site-wc-construcoes",
+            storageBucket: "site-wc-construcoes.firebasestorage.app",
+            messagingSenderId: "464606883726",
+            appId: "1:464606883726:web:ad6e071b9611de879abedf"
+        };
+
+        // INICIALIZA
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // DISPONIBILIZA PARA O CÓDIGO GERAL
+        window.firebaseDB = { db, ref, set, get, push, remove, onValue, off };
+    </script>
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: sans-serif;
-        }
-
-        body {
-            background-color: #0a2463;
-            color: #fff;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .cabecalho-img {
-            width: 100%;
-            max-width: 450px;
-            height: auto;
-            object-fit: contain;
-            border-radius: 16px;
-            display: block;
-            margin: 0 auto 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            background: #fff;
-            padding: 10px;
-        }
-
-        .container {
-            max-width: 450px;
-            margin: 0 auto;
-            background: #fff;
-            color: #000;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        h1 {
-            text-align: center;
-            color: #0a2463;
-            margin-bottom: 25px;
-            font-size: 22px;
-        }
-
-        .caixa-adm {
-            background: linear-gradient(135deg, #fff3cd, #ffe69c);
-            border: 2px solid #b8860b;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-
-        .caixa-adm h3 {
-            color: #856404;
-            font-size: 16px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-            position: relative;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px 45px 12px 12px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: #0a2463;
-        }
-
-        .btn-olho {
-            position: absolute;
-            right: 12px;
-            top: 38px;
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            padding: 0;
-            width: auto;
-            color: #666;
-            margin: 0;
-            z-index: 10;
-            line-height: 1;
-        }
-
-        .btn-olho:hover {
-            background: none;
-            color: #000;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background-color: #0a2463;
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-            margin-top: 5px;
-        }
-
-        button:hover {
-            background-color: #0d3080;
-        }
-
-        button:disabled {
-            background: #93c5fd;
-            cursor: not-allowed;
-        }
-
-        .btn-adm {
-            background-color: #b8860b;
-            font-size: 15px;
-            margin-top: 8px;
-        }
-
-        .btn-adm:hover {
-            background-color: #9c730a;
-        }
-
-        .btn-voltar-adm {
-            background: #6c757d;
-            padding: 10px 15px;
-            font-size: 15px;
-            width: auto;
-            margin: 0 0 15px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-voltar-adm:hover {
-            background: #5a6268;
-        }
-
-        .btn-sair {
-            background: #dc3545;
-            padding: 10px 15px;
-            font-size: 15px;
-            width: auto;
-            margin: 0 0 15px 0;
-        }
-
-        .btn-sair:hover {
-            background: #c82333;
-        }
-
-        .resumo {
-            margin-top: 25px;
-            padding: 20px;
-            background: #f0f4f8;
-            border-radius: 12px;
-        }
-
-        .resumo h2 {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #0a2463;
-        }
-
-        .valor-total {
-            font-size: 26px;
-            font-weight: bold;
-            color: #228B22;
-            margin-top: 10px;
-        }
-
-        .lista-entregas {
-            margin-top: 20px;
-        }
-
-        .entrega-item {
-            padding: 12px 10px;
-            border-bottom: 1px solid #ddd;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .entrega-cima {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .entrega-baixo {
-            font-size: 14px;
-            color: #555;
-        }
-
-        .btn-excluir {
-            background: #dc3545;
-            padding: 6px 10px;
-            font-size: 14px;
-            width: auto;
-            margin: 0;
-            border-radius: 6px;
-        }
-
-        .btn-excluir:hover {
-            background: #c82333;
-        }
-
-        .data-hora {
-            font-size: 12px;
-            color: #888;
-        }
-
-        .tela-senha { display: block; }
-        .tela-dados { display: none; }
-        .tela-admin { display: none; }
-
-        .usuario-atual {
-            background: #e6f2ff;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: bold;
-            color: #0a2463;
-            font-size: 18px;
-        }
-
-        .painel-admin {
-            background: #fff8e1;
-            border: 2px solid #b8860b;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .painel-admin h3 {
-            color: #856404;
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 18px;
-        }
-
-        .usuario-linha {
-            padding: 12px;
-            border-bottom: 1px solid #ffc107;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .usuario-nome {
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .usuario-senha {
-            font-size: 14px;
-            color: #b8860b;
-        }
-
-        .usuario-acoes {
-            display: flex;
-            gap: 8px;
-            margin-top: 5px;
-            flex-wrap: wrap;
-        }
-
-        .btn-entrar {
-            background: #28a745;
-            padding: 6px 10px;
-            font-size: 13px;
-            width: auto;
-            margin: 0;
-        }
-
-        .btn-entrar:hover {
-            background: #218838;
-        }
-
-        .btn-nova-senha {
-            background: #007bff;
-            padding: 6px 10px;
-            font-size: 13px;
-            width: auto;
-            margin: 0;
-        }
-
-        .btn-nova-senha:hover {
-            background: #0056b3;
-        }
-
-        .btn-excluir-usuario {
-            background: #dc3545;
-            padding: 6px 10px;
-            font-size: 13px;
-            width: auto;
-            margin: 0;
-        }
-
-        .btn-excluir-usuario:hover {
-            background: #c82333;
-        }
-
-        .sem-usuarios {
-            text-align: center;
-            color: #888;
-            padding: 20px;
-        }
-
-        .carregando {
-            text-align: center;
-            padding: 20px;
-            color: #0a2463;
-            font-weight: bold;
-        }
-
-        .mensagem-sistema {
-            padding: 12px;
-            border-radius: 8px;
-            margin: 15px 0;
-            text-align: center;
-            font-weight: 500;
-            display: none;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+        body { background-color: #0a2463; color: #fff; min-height: 100vh; padding: 20px; }
+        .cabecalho-img { width: 100%; max-width: 450px; height: auto; object-fit: contain; border-radius: 16px; display: block; margin: 0 auto 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); background: #fff; padding: 10px; }
+        .container { max-width: 450px; margin: 0 auto; background: #fff; color: #000; padding: 25px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        h1 { text-align: center; color: #0a2463; margin-bottom: 25px; font-size: 22px; }
+        .caixa-adm { background: linear-gradient(135deg, #fff3cd, #ffe69c); border: 2px solid #b8860b; border-radius: 12px; padding: 15px; margin-bottom: 20px; }
+        .caixa-adm h3 { color: #856404; font-size: 16px; margin-bottom: 10px; text-align: center; }
+        .input-group { margin-bottom: 15px; position: relative; }
+        label { display: block; margin-bottom: 6px; font-weight: 600; color: #333; }
+        input { width: 100%; padding: 12px 45px 12px 12px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px; }
+        input:focus { outline: none; border-color: #0a2463; }
+        .btn-olho { position: absolute; right: 12px; top: 38px; background: none; border: none; font-size: 24px; cursor: pointer; padding: 0; color: #666; z-index: 10; }
+        button { width: 100%; padding: 14px; background-color: #0a2463; color: #fff; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 5px; }
+        button:hover { background-color: #0d3080; }
+        button:disabled { background: #93c5fd; cursor: not-allowed; }
+        .btn-adm { background-color: #b8860b; font-size: 15px; margin-top: 8px; }
+        .btn-adm:hover { background-color: #9c730a; }
+        .btn-voltar-adm { background: #6c757d; padding: 10px 15px; font-size: 15px; width: auto; margin: 0 0 15px 0; display: flex; align-items: center; gap: 8px; }
+        .btn-voltar-adm:hover { background: #5a6268; }
+        .btn-sair { background: #dc3545; padding: 10px 15px; font-size: 15px; width: auto; margin: 0 0 15px 0; }
+        .btn-sair:hover { background: #c82333; }
+        .resumo { margin-top: 25px; padding: 20px; background: #f0f4f8; border-radius: 12px; }
+        .resumo h2 { font-size: 18px; margin-bottom: 15px; color: #0a2463; }
+        .valor-total { font-size: 26px; font-weight: bold; color: #228B22; margin-top: 10px; }
+        .entrega-item { padding: 12px 10px; border-bottom: 1px solid #ddd; }
+        .entrega-cima { display: flex; justify-content: space-between; align-items: center; }
+        .entrega-baixo { font-size: 14px; color: #555; margin-top: 4px; }
+        .btn-excluir { background: #dc3545; padding: 6px 10px; font-size: 14px; width: auto; border-radius: 6px; border: none; }
+        .btn-excluir:hover { background: #c82333; }
+        .data-hora { font-size: 12px; color: #888; }
+        .tela-senha { display: block; } .tela-dados { display: none; } .tela-admin { display: none; }
+        .usuario-atual { background: #e6f2ff; padding: 10px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-weight: bold; color: #0a2463; font-size: 18px; }
+        .painel-admin { background: #fff8e1; border: 2px solid #b8860b; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .painel-admin h3 { color: #856404; text-align: center; margin-bottom: 15px; font-size: 18px; }
+        .usuario-linha { padding: 12px; border-bottom: 1px solid #ffc107; }
+        .usuario-nome { font-weight: bold; font-size: 16px; margin-bottom: 4px; }
+        .usuario-senha { font-size: 14px; color: #b8860b; margin-bottom: 8px; }
+        .usuario-acoes { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-entrar { background: #28a745; padding: 6px 10px; font-size: 13px; width: auto; border: none; border-radius: 6px; }
+        .btn-entrar:hover { background: #218838; }
+        .btn-nova-senha { background: #007bff; padding: 6px 10px; font-size: 13px; width: auto; border: none; border-radius: 6px; }
+        .btn-nova-senha:hover { background: #0056b3; }
+        .btn-excluir-usuario { background: #dc3545; padding: 6px 10px; font-size: 13px; width: auto; border: none; border-radius: 6px; }
+        .btn-excluir-usuario:hover { background: #c82333; }
+        .sem-usuarios { text-align: center; color: #888; padding: 20px; }
+        .mensagem { padding: 12px; border-radius: 8px; margin: 15px 0; text-align: center; font-weight: 500; display: none; }
         .sucesso { background: #d1fae5; color: #065f46; display: block; }
         .erro { background: #fee2e2; color: #991b1b; display: block; }
+        .carregando { text-align: center; padding: 20px; color: #0a2463; font-weight: bold; }
     </style>
 </head>
 <body>
     <img src="https://i.postimg.cc/tCVbrtpX/IMG-20260907-162841.webp" alt="Pizzaria & Hamburgueria Juninho Delivery" class="cabecalho-img">
-
     <div class="container">
         <!-- 🔐 TELA DE ACESSO -->
         <div id="telaSenha" class="tela-senha">
             <h1>🔐 Acesso ao Sistema</h1>
-            
             <div class="input-group">
                 <label>Nome do Entregador</label>
                 <input type="text" id="nomeUsuario" placeholder="Digite seu nome...">
             </div>
-
             <div class="input-group">
                 <label>Senha de Acesso</label>
                 <input type="password" id="senhaUsuario" placeholder="Crie ou digite sua senha...">
-                <button type="button" class="btn-olho" id="btnOlhoUsuario" onclick="mostrarSenha('senhaUsuario', this)">🙈</button>
+                <button type="button" class="btn-olho" onclick="mostrarSenha('senhaUsuario', this)">🙈</button>
             </div>
-
             <button onclick="entrarSistema()">🔑 Entrar / Criar Conta</button>
-
-            <!-- 👑 ÁREA ADMINISTRATIVA -->
             <div class="caixa-adm">
                 <h3>👑 Área Administrativa</h3>
                 <div class="input-group">
                     <input type="password" id="senhaMestraInput" placeholder="Digite a senha mestra...">
-                    <button type="button" class="btn-olho" id="btnOlhoMestra" onclick="mostrarSenha('senhaMestraInput', this)">🙈</button>
+                    <button type="button" class="btn-olho" onclick="mostrarSenha('senhaMestraInput', this)">🙈</button>
                 </div>
                 <button class="btn-adm" onclick="entrarAdministrador()">🔓 Acessar Painel Completo</button>
             </div>
@@ -383,191 +108,116 @@
 
         <!-- 👑 PAINEL ADMINISTRATIVO -->
         <div id="telaAdmin" class="tela-admin">
-            <h1>👑 Painel Administrativo — Controle Total</h1>
-            <button class="btn-voltar-adm" onclick="voltarParaAdmin()">⬅️ Voltar ao Painel</button>
-            <button class="btn-sair" onclick="sairSistema()">🚪 Sair do Sistema</button>
-
+            <h1>👑 Painel Administrativo</h1>
+            <button class="btn-voltar-adm" onclick="voltarParaAdmin()">⬅️ Voltar ao Login</button>
+            <button class="btn-sair" onclick="sairSistema()">🚪 Sair</button>
             <div class="painel-admin">
-                <h3>📋 Todos os Usuários e Senhas</h3>
+                <h3>📋 Todos os Usuários</h3>
                 <div id="listaUsuarios" class="carregando">Carregando...</div>
             </div>
         </div>
 
-        <!-- 📋 TELA DE REGISTRO DE ENTREGAS -->
+        <!-- 📋 TELA DE ENTREGAS -->
         <div id="telaDados" class="tela-dados">
             <h1>📋 Registro de Entregas</h1>
-            
-            <button id="btnVoltarPainel" class="btn-voltar-adm" style="display:none;" onclick="voltarParaPainelAdmin()">⬅️ Voltar ao Painel Admin</button>
-            
-            <div class="usuario-atual">
-                👤 <span id="mostraUsuario"></span>
-            </div>
-
+            <button id="btnVoltarPainel" class="btn-voltar-adm" style="display:none;" onclick="voltarParaPainelAdmin()">⬅️ Voltar ao Painel</button>
+            <div class="usuario-atual">👤 <span id="mostraUsuario"></span></div>
             <button class="btn-sair" onclick="sairSistema()">🚪 Sair</button>
-
-            <div class="input-group">
-                <label>Nome do Cliente</label>
-                <input type="text" id="nomeCliente" placeholder="Digite o nome do cliente...">
-            </div>
-
-            <div class="input-group">
-                <label>Bairro / Região</label>
-                <input type="text" id="bairro" placeholder="Digite o bairro...">
-            </div>
-
-            <div class="input-group">
-                <label>Valor da Taxa (R$)</label>
-                <input type="number" id="valorTaxa" step="0.01" placeholder="Ex: 5.00">
-            </div>
-
-            <button id="btnRegistrarEntrega" onclick="registrarEntrega()">✅ Registrar Entrega</button>
-
-            <div id="msgSistema" class="mensagem-sistema"></div>
+            
+            <div class="input-group"><label>Nome do Cliente</label><input type="text" id="nomeCliente" placeholder="Nome do cliente..."></div>
+            <div class="input-group"><label>Bairro / Região</label><input type="text" id="bairro" placeholder="Bairro..."></div>
+            <div class="input-group"><label>Valor da Taxa (R$)</label><input type="number" id="valorTaxa" step="0.01" placeholder="5.00"></div>
+            
+            <button id="btnRegistrar" onclick="registrarEntrega()">✅ Registrar Entrega</button>
+            <div id="mensagem" class="mensagem"></div>
 
             <div class="resumo">
                 <h2>📊 Resumo</h2>
                 <p>Total de entregas: <span id="qtdEntregas">0</span></p>
-                <p>Valor total das taxas:</p>
-                <p class="valor-total">R$ <span id="valorTotal">0,00</span></p>
-
-                <div class="lista-entregas">
-                    <h3 style="margin-top:15px; font-size:16px; color:#0a2463;">Histórico</h3>
-                    <div id="lista" class="carregando">Carregando...</div>
+                <p>Valor total: <span class="valor-total">R$ <span id="valorTotal">0,00</span></span></p>
+                <div style="margin-top:20px;">
+                    <h3 style="font-size:16px; color:#0a2463; margin-bottom:10px;">Histórico</h3>
+                    <div id="lista"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // 👑 SENHA MESTRA
         const SENHA_MESTRA = 'juninho2026';
-        // 🌐 URL DA API DO GOOGLE APPS SCRIPT — A QUE VOCÊ ME DEU!
-        const URL_API = "https://script.google.com/macros/s/AKfycbxIFuAoO1efInjU78z3NGw3gqhjq-QtzAchO4HpL3PAAnDPga5Moit8NS4NsrBr9BUx/exec";
         const FUSO = "America/Sao_Paulo";
 
         let usuarioAtual = null;
         let senhaAtual = null;
         let veioDoAdmin = false;
-        let cacheDados = { usuarios: {}, entregas: [] };
+        let entregasListener = null;
+        let db, ref, set, get, push, remove, onValue, off;
 
-        // 👁️ FUNÇÃO DO OLHO — CORRIGIDA CONFORME PEDIDO
+        // ⏳ Espera o Firebase carregar
+        async function esperarFirebase() {
+            while (!window.firebaseDB) await new Promise(r => setTimeout(r, 50));
+            ({ db, ref, set, get, push, remove, onValue, off } = window.firebaseDB);
+        }
+
+        // 👁️ Mostrar/esconder senha
         function mostrarSenha(idInput, botao) {
             const input = document.getElementById(idInput);
-            if (input.type === 'password') {
-                input.type = 'text';
-                botao.textContent = '👁️';
-            } else {
-                input.type = 'password';
-                botao.textContent = '🙈';
-            }
+            input.type = input.type === 'password' ? 'text' : 'password';
+            botao.textContent = input.type === 'password' ? '🙈' : '👁️';
         }
 
-        // 📤 SALVAR DADOS NA PLANILHA DO GOOGLE
-        async function salvarDadosGoogle(tipo, dados) {
-            try {
-                const agora = new Date();
-                const data = agora.toLocaleDateString("pt-BR", { timeZone: FUSO });
-                const hora = agora.toLocaleTimeString("pt-BR", { timeZone: FUSO, hour12: false });
-
-                const resposta = await fetch(URL_API, {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ 
-                        acao: tipo, 
-                        data, 
-                        hora, 
-                        ...dados 
-                    })
-                });
-                return { sucesso: true };
-            } catch (erro) {
-                console.error("Erro ao salvar:", erro);
-                return { sucesso: false, erro };
-            }
+        // 💾 Mostrar mensagem
+        function mostrarMensagem(texto, tipo) {
+            const el = document.getElementById('mensagem');
+            el.textContent = texto;
+            el.className = `mensagem ${tipo}`;
+            setTimeout(() => el.className = 'mensagem', 4000);
         }
 
-        // 📥 CARREGAR DADOS DA PLANILHA
-        async function carregarDadosGoogle() {
-            try {
-                const resposta = await fetch(`${URL_API}?acao=ler`);
-                const dados = await resposta.json();
-                cacheDados = dados;
-                return dados;
-            } catch (erro) {
-                console.error("Erro ao carregar:", erro);
-                return cacheDados; // Usa o cache se falhar
-            }
-        }
-
-        // 💾 SALVAR USUÁRIO
-        async function salvarUsuario(nome, senha) {
-            return await salvarDadosGoogle('criarUsuario', { nome, senha });
-        }
-
-        // 🔍 BUSCAR USUÁRIO
-        function buscarUsuario(nome, senha) {
-            const chave = `${nome}_${senha}`;
-            return cacheDados.usuarios[chave] || null;
-        }
-
-        // === 👑 PAINEL ADMINISTRATIVO ===
+        // 👑 Admin
         async function entrarAdministrador() {
-            const senhaDigitada = document.getElementById('senhaMestraInput').value.trim();
+            await esperarFirebase();
+            const senha = document.getElementById('senhaMestraInput').value.trim();
+            if (!senha) return alert('Digite a senha!');
+            if (senha !== SENHA_MESTRA) return alert('❌ Senha incorreta!');
             
-            if (!senhaDigitada) {
-                alert('Digite a senha mestra!');
-                return;
-            }
-
-            if (senhaDigitada !== SENHA_MESTRA) {
-                alert('❌ Senha mestra incorreta!');
-                return;
-            }
-
             document.getElementById('telaSenha').style.display = 'none';
             document.getElementById('telaAdmin').style.display = 'block';
-            
-            // Carrega todos os usuários
-            await carregarDadosGoogle();
-            listarTodosUsuarios();
-            
-            alert('👑 Acesso Administrador concedido! Controle Total do Sistema!');
+            listarUsuarios();
         }
 
-        function listarTodosUsuarios() {
+        async function listarUsuarios() {
             const lista = document.getElementById('listaUsuarios');
             lista.innerHTML = '';
-
-            const usuarios = cacheDados.usuarios || {};
-            const temUsuarios = Object.keys(usuarios).length > 0;
-
-            if (!temUsuarios) {
-                lista.innerHTML = '<p class="sem-usuarios">Nenhum usuário cadastrado ainda.</p>';
+            
+            const snap = await get(ref(db, 'usuarios'));
+            const dados = snap.val() || {};
+            const chaves = Object.keys(dados);
+            
+            if (chaves.length === 0) {
+                lista.innerHTML = '<p class="sem-usuarios">Nenhum usuário cadastrado.</p>';
                 return;
             }
 
-            for (const chave in usuarios) {
-                const partes = chave.split('_');
-                const senha = partes.pop();
-                const nome = partes.join('_');
-
-                const item = document.createElement('div');
-                item.className = 'usuario-linha';
-                item.innerHTML = `
+            chaves.forEach(chave => {
+                const [nome, ...rest] = chave.split('_');
+                const senha = rest.join('_');
+                const div = document.createElement('div');
+                div.className = 'usuario-linha';
+                div.innerHTML = `
                     <div class="usuario-nome">👤 ${nome}</div>
                     <div class="usuario-senha">🔑 Senha: ${senha}</div>
                     <div class="usuario-acoes">
-                        <button class="btn-entrar" onclick="entrarComoUsuario('${nome}', '${senha}')">👁️ Ver Dados</button>
-                        <button class="btn-nova-senha" onclick="alterarSenhaUsuario('${nome}', '${senha}')">🔄 Nova Senha</button>
-                        <button class="btn-excluir-usuario" onclick="excluirUsuarioCompleto('${nome}', '${senha}')">🗑️ Excluir</button>
+                        <button class="btn-entrar" onclick="entrarComo('${nome}', '${senha}')">👁️ Ver</button>
+                        <button class="btn-nova-senha" onclick="novaSenha('${nome}', '${senha}')">🔄 Senha</button>
+                        <button class="btn-excluir-usuario" onclick="excluirUser('${nome}', '${senha}')">🗑️ Excluir</button>
                     </div>
                 `;
-                lista.appendChild(item);
-            }
+                lista.appendChild(div);
+            });
         }
 
-        async function entrarComoUsuario(nome, senha) {
+        async function entrarComo(nome, senha) {
             veioDoAdmin = true;
             usuarioAtual = nome;
             senhaAtual = senha;
@@ -575,18 +225,17 @@
             document.getElementById('telaDados').style.display = 'block';
             document.getElementById('mostraUsuario').textContent = nome;
             document.getElementById('btnVoltarPainel').style.display = 'flex';
-            
-            await carregarDadosGoogle();
-            atualizarTela();
+            iniciarListenerEntregas();
         }
 
         function voltarParaPainelAdmin() {
-            usuarioAtual = null;
-            senhaAtual = null;
+            pararListenerEntregas();
+            usuarioAtual = senhaAtual = null;
+            veioDoAdmin = false;
             document.getElementById('telaDados').style.display = 'none';
             document.getElementById('telaAdmin').style.display = 'block';
             document.getElementById('btnVoltarPainel').style.display = 'none';
-            listarTodosUsuarios();
+            listarUsuarios();
         }
 
         function voltarParaAdmin() {
@@ -595,47 +244,38 @@
             document.getElementById('senhaMestraInput').value = '';
         }
 
-        async function alterarSenhaUsuario(nome, senhaAntiga) {
-            const novaSenha = prompt(`Digite a NOVA senha para ${nome}:`);
-            if (!novaSenha) return;
-
-            await salvarDadosGoogle('alterarSenha', { nome, senhaAntiga, novaSenha });
-            alert(`✅ Senha alterada com sucesso!\nUsuário: ${nome}\nNova senha: ${novaSenha}`);
-            await carregarDadosGoogle();
-            listarTodosUsuarios();
+        async function novaSenha(nome, senhaAntiga) {
+            const nova = prompt(`Nova senha para ${nome}:`);
+            if (!nova) return;
+            await remove(ref(db, `usuarios/${nome}_${senhaAntiga}`));
+            await set(ref(db, `usuarios/${nome}_${nova}`), { nome, senha: nova });
+            alert('✅ Senha alterada!');
+            listarUsuarios();
         }
 
-        async function excluirUsuarioCompleto(nome, senha) {
-            if (!confirm(`⚠️ Tem CERTEZA que deseja EXCLUIR o usuário "${nome}" e TODOS os seus registros?\nEsta ação não pode ser desfeita!`)) {
-                return;
-            }
-
-            await salvarDadosGoogle('excluirUsuario', { nome, senha });
-            alert(`✅ Usuário "${nome}" foi excluído do sistema!`);
-            await carregarDadosGoogle();
-            listarTodosUsuarios();
+        async function excluirUser(nome, senha) {
+            if (!confirm(`Excluir ${nome}?`)) return;
+            await remove(ref(db, `usuarios/${nome}_${senha}`));
+            alert('✅ Excluído!');
+            listarUsuarios();
         }
 
-        // === 🔑 ENTRADA NORMAL DOS ENTREGADORES ===
+        // 🔑 Entrar usuário
         async function entrarSistema() {
+            await esperarFirebase();
             veioDoAdmin = false;
             const nome = document.getElementById('nomeUsuario').value.trim();
             const senha = document.getElementById('senhaUsuario').value.trim();
-
-            if (!nome) { alert('Digite seu nome!'); return; }
-            if (!senha) { alert('Digite sua senha!'); return; }
-            if (senha === SENHA_MESTRA) { alert('⚠️ Use a Área Administrativa para a senha mestra!'); return; }
-
-            // Carrega dados da nuvem
-            await carregarDadosGoogle();
             
-            const usuario = buscarUsuario(nome, senha);
+            if (!nome || !senha) return alert('Preencha tudo!');
+            if (senha === SENHA_MESTRA) return alert('Use a Área Administrativa!');
+
+            const chave = `${nome}_${senha}`;
+            const snap = await get(ref(db, `usuarios/${chave}`));
             
-            if (!usuario) {
-                // Cria novo usuário
-                await salvarUsuario(nome, senha);
-                alert(`✅ Usuário "${nome}" criado com sucesso!\nGuarde bem sua senha!`);
-                await carregarDadosGoogle();
+            if (!snap.exists()) {
+                await set(ref(db, `usuarios/${chave}`), { nome, senha, criadoEm: new Date().toISOString() });
+                alert(`✅ Bem-vindo, ${nome}! Conta criada!`);
             }
 
             usuarioAtual = nome;
@@ -643,14 +283,13 @@
             document.getElementById('telaSenha').style.display = 'none';
             document.getElementById('telaDados').style.display = 'block';
             document.getElementById('mostraUsuario').textContent = nome;
-            document.getElementById('btnVoltarPainel').style.display = 'none';
-            atualizarTela();
+            iniciarListenerEntregas();
         }
 
-        // === 🚪 SAIR ===
+        // 🚪 Sair
         function sairSistema() {
-            usuarioAtual = null;
-            senhaAtual = null;
+            pararListenerEntregas();
+            usuarioAtual = senhaAtual = null;
             veioDoAdmin = false;
             document.getElementById('telaSenha').style.display = 'block';
             document.getElementById('telaDados').style.display = 'none';
@@ -658,112 +297,100 @@
             document.getElementById('nomeUsuario').value = '';
             document.getElementById('senhaUsuario').value = '';
             document.getElementById('senhaMestraInput').value = '';
-            document.getElementById('btnVoltarPainel').style.display = 'none';
-            document.getElementById('btnOlhoUsuario').textContent = '🙈';
-            document.getElementById('btnOlhoMestra').textContent = '🙈';
         }
 
-        // 📊 MOSTRAR MENSAGEM
-        function mostrarMensagem(texto, tipo) {
-            const el = document.getElementById('msgSistema');
-            el.textContent = texto;
-            el.className = `mensagem-sistema ${tipo}`;
-            setTimeout(() => el.className = 'mensagem-sistema', 5000);
+        // 👂 TEMPO REAL — atualiza automaticamente!
+        function iniciarListenerEntregas() {
+            pararListenerEntregas();
+            entregasListener = onValue(ref(db, 'entregas'), snapshot => {
+                const todas = snapshot.val() || {};
+                const lista = Object.values(todas).filter(e => e.entregador === usuarioAtual);
+                atualizarTela(lista);
+            });
         }
 
-        // === 📋 REGISTRAR ENTREGA ===
+        function pararListenerEntregas() {
+            if (entregasListener) {
+                off(ref(db, 'entregas'), 'value', entregasListener);
+                entregasListener = null;
+            }
+        }
+
+        // 📋 Registrar entrega
         async function registrarEntrega() {
+            await esperarFirebase();
             const nomeCliente = document.getElementById('nomeCliente').value.trim();
             const bairro = document.getElementById('bairro').value.trim();
             const valorTaxa = parseFloat(document.getElementById('valorTaxa').value) || 0;
-            const btn = document.getElementById('btnRegistrarEntrega');
+            const btn = document.getElementById('btnRegistrar');
 
-            if (!nomeCliente) { alert('Digite o nome do cliente!'); return; }
-            if (!bairro) { alert('Digite o bairro!'); return; }
-            if (valorTaxa <= 0) { alert('Digite o valor da taxa!'); return; }
+            if (!nomeCliente || !bairro || valorTaxa <= 0) {
+                mostrarMensagem('⚠️ Preencha todos os campos!', 'erro');
+                return;
+            }
 
             btn.disabled = true;
             btn.textContent = "Salvando...";
 
             const agora = new Date();
-            const data = agora.toLocaleDateString("pt-BR", { timeZone: FUSO });
-            const hora = agora.toLocaleTimeString("pt-BR", { timeZone: FUSO, hour12: false });
-
+            const id = Date.now();
             const entrega = {
-                id: Date.now(),
+                id,
                 entregador: usuarioAtual,
                 nomeCliente,
                 bairro,
                 valorTaxa,
-                data,
-                hora
+                data: agora.toLocaleDateString("pt-BR", { timeZone: FUSO }),
+                hora: agora.toLocaleTimeString("pt-BR", { timeZone: FUSO, hour12: false })
             };
 
-            const resultado = await salvarDadosGoogle('registrarEntrega', { entrega });
-
-            if (resultado.sucesso) {
-                mostrarMensagem("✅ Entrega registrada com sucesso!", "sucesso");
-                document.getElementById('nomeCliente').value = '';
-                document.getElementById('bairro').value = '';
-                document.getElementById('valorTaxa').value = '';
-                await carregarDadosGoogle();
-                atualizarTela();
-            } else {
-                mostrarMensagem("❌ Erro ao salvar. Tente novamente.", "erro");
-            }
+            await set(ref(db, `entregas/${id}`), entrega);
+            
+            mostrarMensagem('✅ Entrega registrada!', 'sucesso');
+            document.getElementById('nomeCliente').value = '';
+            document.getElementById('bairro').value = '';
+            document.getElementById('valorTaxa').value = '';
 
             btn.disabled = false;
             btn.textContent = "✅ Registrar Entrega";
         }
 
         async function excluirEntrega(id) {
-            if (!confirm('Tem certeza que deseja excluir?')) return;
-            
-            await salvarDadosGoogle('excluirEntrega', { id, entregador: usuarioAtual });
-            await carregarDadosGoogle();
-            atualizarTela();
+            if (!confirm('Excluir esta entrega?')) return;
+            await remove(ref(db, `entregas/${id}`));
         }
 
-        // 📊 ATUALIZAR TELA
-        function atualizarTela() {
-            const todasEntregas = cacheDados.entregas || [];
-            const minhasEntregas = todasEntregas.filter(e => e.entregador === usuarioAtual);
+        // 📊 Atualizar tela
+        function atualizarTela(minhas) {
+            const total = minhas.reduce((s, e) => s + (e.valorTaxa || 0), 0);
 
-            const qtd = minhasEntregas.length;
-            const total = minhasEntregas.reduce((soma, e) => soma + (e.valorTaxa || 0), 0);
-
-            document.getElementById('qtdEntregas').textContent = qtd;
+            document.getElementById('qtdEntregas').textContent = minhas.length;
             document.getElementById('valorTotal').textContent = total.toFixed(2).replace('.', ',');
 
             const lista = document.getElementById('lista');
             lista.innerHTML = '';
 
-            if (minhasEntregas.length === 0) {
-                lista.innerHTML = '<p style="text-align:center; color:#888; padding:20px;">Nenhuma entrega registrada ainda.</p>';
+            if (minhas.length === 0) {
+                lista.innerHTML = '<p style="text-align:center; color:#888; padding:20px;">Nenhuma entrega ainda.</p>';
                 return;
             }
 
-            minhasEntregas.forEach(e => {
-                const item = document.createElement('div');
-                item.className = 'entrega-item';
-                item.innerHTML = `
+            minhas.forEach(e => {
+                const div = document.createElement('div');
+                div.className = 'entrega-item';
+                div.innerHTML = `
                     <div class="entrega-cima">
                         <strong>${e.nomeCliente}</strong>
                         <button class="btn-excluir" onclick="excluirEntrega(${e.id})">X</button>
                     </div>
                     <div class="entrega-baixo">
-                        📍 ${e.bairro} • R$ ${(e.valorTaxa || 0).toFixed(2).replace('.', ',')}
-                        <span class="data-hora"> • ${e.data} às ${e.hora}</span>
+                        📍 ${e.bairro} • R$ ${(e.valorTaxa||0).toFixed(2).replace('.', ',')}
+                        <span class="data-hora"> • ${e.data} ${e.hora}</span>
                     </div>
                 `;
-                lista.appendChild(item);
+                lista.appendChild(div);
             });
         }
-
-        // 🔄 CARREGAR DADOS AO INICIAR
-        document.addEventListener('DOMContentLoaded', async () => {
-            await carregarDadosGoogle();
-        });
     </script>
 </body>
 </html>
