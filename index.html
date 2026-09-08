@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Entregas — Juninho Delivery</title>
+    <title>Registro de Entregas</title>
     <!-- 🔥 FIREBASE v9+ (Modular) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
@@ -31,30 +31,18 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
         body { background-color: #0a2463; color: #fff; min-height: 100vh; padding: 20px; }
-        /* 🖼️ CABEÇALHO — IMAGEM CORRIGIDA E CENTRALIZADA */
-        .cabecalho-img { 
-            width: 100%; 
-            max-width: 400px; 
-            height: auto; 
-            object-fit: contain; 
-            display: block; 
-            margin: 0 auto 20px; 
-            background: #fff; 
-            padding: 15px; 
-            border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
+        
         .container { max-width: 450px; margin: 0 auto; background: #fff; color: #000; padding: 25px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
         h1 { text-align: center; color: #0a2463; margin-bottom: 25px; font-size: 22px; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .caixa-adm { background: linear-gradient(135deg, #fff3cd, #ffe69c); border: 2px solid #b8860b; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
         .caixa-adm h3 { color: #856404; font-size: 18px; margin-bottom: 15px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .input-group { margin-bottom: 18px; }
         label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 16px; }
-        /* 👁️ CAMPO DE SENHA — OLHO BEM NA BOLINHA AMARELA! */
+        /* 👁️ CAMPO DE SENHA */
         .input-wrapper { position: relative; width: 100%; }
         input { 
             width: 100%; 
-            padding: 14px 50px 14px 16px; /* Espaço extra à direita para o olho */
+            padding: 14px 50px 14px 16px;
             border: 2px solid #ddd; 
             border-radius: 12px; 
             font-size: 16px; 
@@ -63,10 +51,10 @@
             transition: border-color 0.2s;
         }
         input:focus { outline: none; border-color: #0a2463; }
-        /* 🎯 OLHO EXATAMENTE ONDE ESTÁ A BOLINHA AMARELA — ALINHADO À DIREITA! */
+        /* 🎯 OLHO NA SENHA */
         .btn-olho { 
             position: absolute; 
-            right: 16px; /* ✅ Exatamente na bolinha amarela! */
+            right: 16px; 
             top: 50%; 
             transform: translateY(-50%); 
             background: transparent; 
@@ -136,15 +124,6 @@
     </style>
 </head>
 <body>
-    <!-- 🖼️ IMAGEM DO CABEÇALHO — CORRIGIDA E OTIMIZADA -->
-    <img 
-        src="https://i.postimg.cc/tCVbrtpX/IMG-20260907-162841.webp" 
-        alt="Pizzaria e Hamburgueria Juninho Delivery" 
-        class="cabecalho-img"
-        loading="lazy"
-        onerror="this.src='https://via.placeholder.com/400x120/FFFFFF/0A2463?text=JUNINHO+DELIVERY'"
-    >
-    
     <div class="container">
         <!-- 🔐 TELA DE ACESSO -->
         <div id="telaSenha" class="tela-senha">
@@ -159,7 +138,6 @@
                 <label>Senha de Acesso</label>
                 <div class="input-wrapper">
                     <input type="password" id="senhaUsuario" placeholder="Crie ou digite sua senha...">
-                    <!-- 👁️ OLHO EXATAMENTE NA BOLINHA AMARELA! -->
                     <button type="button" class="btn-olho" onclick="mostrarSenha('senhaUsuario', this)">👁️</button>
                 </div>
             </div>
@@ -172,7 +150,6 @@
                     <label>Senha Mestra</label>
                     <div class="input-wrapper">
                         <input type="password" id="senhaMestraInput" placeholder="Digite a senha mestra...">
-                        <!-- 👁️ OLHO EXATAMENTE NA BOLINHA AMARELA — TAMBÉM EMBAIXO! -->
                         <button type="button" class="btn-olho" onclick="mostrarSenha('senhaMestraInput', this)">👁️</button>
                     </div>
                 </div>
@@ -233,7 +210,7 @@
             ({ db, ref, set, get, push, remove, onValue, off } = window.firebaseDB);
         }
 
-        // 👁️ Mostrar/esconder senha — ícone na bolinha amarela!
+        // 👁️ Mostrar/esconder senha
         function mostrarSenha(idInput, botao) {
             const input = document.getElementById(idInput);
             input.type = input.type === 'password' ? 'text' : 'password';
