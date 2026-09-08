@@ -38,7 +38,7 @@
         .caixa-adm h3 { color: #856404; font-size: 18px; margin-bottom: 15px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .input-group { margin-bottom: 18px; }
         label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 16px; }
-        /* 👁️ CAMPO DE SENHA */
+        /* 👀 CAMPO DE SENHA */
         .input-wrapper { position: relative; width: 100%; }
         input { 
             width: 100%; 
@@ -138,7 +138,7 @@
                 <label>Senha de Acesso</label>
                 <div class="input-wrapper">
                     <input type="password" id="senhaUsuario" placeholder="Crie ou digite sua senha...">
-                    <button type="button" class="btn-olho" onclick="mostrarSenha('senhaUsuario', this)">👁️</button>
+                    <button type="button" class="btn-olho" onclick="mostrarSenha('senhaUsuario', this)">👀</button>
                 </div>
             </div>
             
@@ -150,7 +150,7 @@
                     <label>Senha Mestra</label>
                     <div class="input-wrapper">
                         <input type="password" id="senhaMestraInput" placeholder="Digite a senha mestra...">
-                        <button type="button" class="btn-olho" onclick="mostrarSenha('senhaMestraInput', this)">👁️</button>
+                        <button type="button" class="btn-olho" onclick="mostrarSenha('senhaMestraInput', this)">👀</button>
                     </div>
                 </div>
                 <button class="btn-adm" onclick="entrarAdministrador()">🔓 Acessar Painel Completo</button>
@@ -195,7 +195,7 @@
     </div>
 
     <script>
-        const SENHA_MESTRA = 'juninho2026';
+        const SENHA_MESTRA = 'motoboy2026';
         const FUSO = "America/Sao_Paulo";
 
         let usuarioAtual = null;
@@ -210,11 +210,11 @@
             ({ db, ref, set, get, push, remove, onValue, off } = window.firebaseDB);
         }
 
-        // 👁️ Mostrar/esconder senha
+        // 👀 Mostrar/esconder senha
         function mostrarSenha(idInput, botao) {
             const input = document.getElementById(idInput);
             input.type = input.type === 'password' ? 'text' : 'password';
-            botao.textContent = input.type === 'password' ? '👁️' : '🙈';
+            botao.textContent = input.type === 'password' ? '🙈' : '👀';
         }
 
         // 💾 Mostrar mensagem
@@ -259,7 +259,7 @@
                     <div class="usuario-nome">👤 ${nome}</div>
                     <div class="usuario-senha">🔑 Senha: ${senha}</div>
                     <div class="usuario-acoes">
-                        <button class="btn-entrar" onclick="entrarComo('${nome}', '${senha}')">👁️ Ver</button>
+                        <button class="btn-entrar" onclick="entrarComo('${nome}', '${senha}')">👀 Ver</button>
                         <button class="btn-nova-senha" onclick="novaSenha('${nome}', '${senha}')">🔄 Senha</button>
                         <button class="btn-excluir-usuario" onclick="excluirUser('${nome}', '${senha}')">🗑️ Excluir</button>
                     </div>
