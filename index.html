@@ -9,7 +9,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
         import { getDatabase, ref, set, get, push, remove, onValue, off } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
 
-        // ✅ SUA CONFIGURAÇÃO DO FIREBASE — JÁ PREENCHIDA!
         const firebaseConfig = {
             apiKey: "AIzaSyDw8DczcbV83UEgmEoUI0iLkNueqwD0Bs8",
             authDomain: "site-wc-construcoes.firebaseapp.com",
@@ -20,11 +19,8 @@
             appId: "1:464606883726:web:ad6e071b9611de879abedf"
         };
 
-        // INICIALIZA
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-
-        // DISPONIBILIZA PARA O CÓDIGO GERAL
         window.firebaseDB = { db, ref, set, get, push, remove, onValue, off };
     </script>
     
@@ -38,7 +34,6 @@
         .caixa-adm h3 { color: #856404; font-size: 18px; margin-bottom: 15px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
         .input-group { margin-bottom: 18px; }
         label { display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 16px; }
-        /* 👀 CAMPO DE SENHA */
         .input-wrapper { position: relative; width: 100%; }
         input { 
             width: 100%; 
@@ -51,7 +46,6 @@
             transition: border-color 0.2s;
         }
         input:focus { outline: none; border-color: #0a2463; }
-        /* 🎯 OLHO NA SENHA */
         .btn-olho { 
             position: absolute; 
             right: 16px; 
@@ -125,7 +119,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- 🔐 TELA DE ACESSO -->
         <div id="telaSenha" class="tela-senha">
             <h1>🔐 Acesso ao Sistema</h1>
             
@@ -137,6 +130,7 @@
             <div class="input-group">
                 <label>Senha de Acesso</label>
                 <div class="input-wrapper">
+                    <!-- COMEÇA ESCONDIDO + OLHO ABERTO = PADRÃO DE SEGURANÇA -->
                     <input type="password" id="senhaUsuario" placeholder="Crie ou digite sua senha...">
                     <button type="button" class="btn-olho" onclick="mostrarSenha('senhaUsuario', this)">👀</button>
                 </div>
@@ -157,7 +151,6 @@
             </div>
         </div>
 
-        <!-- 👑 PAINEL ADMINISTRATIVO -->
         <div id="telaAdmin" class="tela-admin">
             <h1>👑 Painel Administrativo</h1>
             <button class="btn-voltar-adm" onclick="voltarParaAdmin()">⬅️ Voltar ao Login</button>
@@ -168,7 +161,6 @@
             </div>
         </div>
 
-        <!-- 📋 TELA DE ENTREGAS -->
         <div id="telaDados" class="tela-dados">
             <h1>📋 Registro de Entregas</h1>
             <button id="btnVoltarPainel" class="btn-voltar-adm" style="display:none;" onclick="voltarParaPainelAdmin()">⬅️ Voltar ao Painel</button>
@@ -204,28 +196,28 @@
         let entregasListener = null;
         let db, ref, set, get, push, remove, onValue, off;
 
-        // ⏳ Espera o Firebase carregar
         async function esperarFirebase() {
             while (!window.firebaseDB) await new Promise(r => setTimeout(r, 50));
             ({ db, ref, set, get, push, remove, onValue, off } = window.firebaseDB);
         }
 
-        // 👀 MOSTRAR/ESCONDER SENHA — CORRIGIDO! ✅
-        // 👀 = visível (texto) | 🙈 = escondido (password)
+        // 👀 FUNÇÃO CORRIGIDA — LÓGICA DIRETA E SIMPLES!
+        // 👀 = SENHA VISÍVEL | 🙈 = SENHA ESCONDIDA
         function mostrarSenha(idInput, botao) {
             const input = document.getElementById(idInput);
-            if (input.type === 'password') {
-                // Estava escondido → mostra e troca para olho aberto
-                input.type = 'text';
-                botao.textContent = '👀';
-            } else {
-                // Estava visível → esconde e troca para olho fechado
-                input.type = 'password';
-                botao.textContent = '🙈';
+            
+            // Se está 👀 → MOSTRA a senha e troca para 🙈
+            if (botao.textContent === '👀') {
+                input.type = 'text';      // Mostra a senha
+                botao.textContent = '🙈'; // Olho fecha
+            } 
+            // Se está 🙈 → ESCONDE a senha e troca para 👀
+            else {
+                input.type = 'password';  // Esconde a senha
+                botao.textContent = '👀'; // Olho abre
             }
         }
 
-        // 💾 Mostrar mensagem
         function mostrarMensagem(texto, tipo) {
             const el = document.getElementById('mensagem');
             el.textContent = texto;
@@ -233,7 +225,6 @@
             setTimeout(() => el.className = 'mensagem', 4000);
         }
 
-        // 👑 Admin
         async function entrarAdministrador() {
             await esperarFirebase();
             const senha = document.getElementById('senhaMestraInput').value.trim();
@@ -319,7 +310,6 @@
             listarUsuarios();
         }
 
-        // 🔑 Entrar usuário
         async function entrarSistema() {
             await esperarFirebase();
             veioDoAdmin = false;
@@ -345,7 +335,6 @@
             iniciarListenerEntregas();
         }
 
-        // 🚪 Sair
         function sairSistema() {
             pararListenerEntregas();
             usuarioAtual = senhaAtual = null;
@@ -356,12 +345,13 @@
             document.getElementById('nomeUsuario').value = '';
             document.getElementById('senhaUsuario').value = '';
             document.getElementById('senhaMestraInput').value = '';
-            // Reseta os olhos para o estado padrão (fechado/escondido)
+            // Reseta para o estado padrão: senha escondida + olho aberto
+            document.querySelector('#senhaUsuario').type = 'password';
             document.querySelector('#senhaUsuario + button').textContent = '👀';
+            document.querySelector('#senhaMestraInput').type = 'password';
             document.querySelector('#senhaMestraInput + button').textContent = '👀';
         }
 
-        // 👂 TEMPO REAL — atualiza automaticamente!
         function iniciarListenerEntregas() {
             pararListenerEntregas();
             entregasListener = onValue(ref(db, 'entregas'), snapshot => {
@@ -378,7 +368,6 @@
             }
         }
 
-        // 📋 Registrar entrega
         async function registrarEntrega() {
             await esperarFirebase();
             const nomeCliente = document.getElementById('nomeCliente').value.trim();
@@ -422,7 +411,6 @@
             await remove(ref(db, `entregas/${id}`));
         }
 
-        // 📊 Atualizar tela
         function atualizarTela(minhas) {
             const total = minhas.reduce((s, e) => s + (e.valorTaxa || 0), 0);
 
