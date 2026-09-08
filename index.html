@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Entregas</title>
-    <!-- 🔥 FIREBASE v9+ (Modular) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
         import { getDatabase, ref, set, get, push, remove, onValue, off } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-database.js";
@@ -130,7 +129,6 @@
             <div class="input-group">
                 <label>Senha de Acesso</label>
                 <div class="input-wrapper">
-                    <!-- COMEÇA ESCONDIDO + OLHO ABERTO = PADRÃO DE SEGURANÇA -->
                     <input type="password" id="senhaUsuario" placeholder="Crie ou digite sua senha...">
                     <button type="button" class="btn-olho" onclick="mostrarSenha('senhaUsuario', this)">👀</button>
                 </div>
@@ -201,20 +199,20 @@
             ({ db, ref, set, get, push, remove, onValue, off } = window.firebaseDB);
         }
 
-        // 👀 FUNÇÃO CORRIGIDA — LÓGICA DIRETA E SIMPLES!
-        // 👀 = SENHA VISÍVEL | 🙈 = SENHA ESCONDIDA
+        // 👀 FUNÇÃO CORRIGIDA — FINALMENTE CERTINHA!
+        // 👀 = MOSTRA SENHA | 🙈 = ESCONDE SENHA
         function mostrarSenha(idInput, botao) {
             const input = document.getElementById(idInput);
             
-            // Se está 👀 → MOSTRA a senha e troca para 🙈
+            // OLHO ABERTO → MOSTRA a senha e troca para fechado
             if (botao.textContent === '👀') {
-                input.type = 'text';      // Mostra a senha
-                botao.textContent = '🙈'; // Olho fecha
+                input.type = 'text';
+                botao.textContent = '🙈';
             } 
-            // Se está 🙈 → ESCONDE a senha e troca para 👀
+            // OLHO FECHADO → ESCONDE a senha e troca para aberto
             else {
-                input.type = 'password';  // Esconde a senha
-                botao.textContent = '👀'; // Olho abre
+                input.type = 'password';
+                botao.textContent = '👀';
             }
         }
 
@@ -345,10 +343,10 @@
             document.getElementById('nomeUsuario').value = '';
             document.getElementById('senhaUsuario').value = '';
             document.getElementById('senhaMestraInput').value = '';
-            // Reseta para o estado padrão: senha escondida + olho aberto
-            document.querySelector('#senhaUsuario').type = 'password';
+            // Reseta os campos — senha escondida + olho aberto
+            document.getElementById('senhaUsuario').type = 'password';
             document.querySelector('#senhaUsuario + button').textContent = '👀';
-            document.querySelector('#senhaMestraInput').type = 'password';
+            document.getElementById('senhaMestraInput').type = 'password';
             document.querySelector('#senhaMestraInput + button').textContent = '👀';
         }
 
