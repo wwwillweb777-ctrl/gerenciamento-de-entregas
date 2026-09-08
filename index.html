@@ -210,11 +210,19 @@
             ({ db, ref, set, get, push, remove, onValue, off } = window.firebaseDB);
         }
 
-        // 👀 Mostrar/esconder senha
+        // 👀 MOSTRAR/ESCONDER SENHA — CORRIGIDO! ✅
+        // 👀 = visível (texto) | 🙈 = escondido (password)
         function mostrarSenha(idInput, botao) {
             const input = document.getElementById(idInput);
-            input.type = input.type === 'password' ? 'text' : 'password';
-            botao.textContent = input.type === 'password' ? '🙈' : '👀';
+            if (input.type === 'password') {
+                // Estava escondido → mostra e troca para olho aberto
+                input.type = 'text';
+                botao.textContent = '👀';
+            } else {
+                // Estava visível → esconde e troca para olho fechado
+                input.type = 'password';
+                botao.textContent = '🙈';
+            }
         }
 
         // 💾 Mostrar mensagem
@@ -348,6 +356,9 @@
             document.getElementById('nomeUsuario').value = '';
             document.getElementById('senhaUsuario').value = '';
             document.getElementById('senhaMestraInput').value = '';
+            // Reseta os olhos para o estado padrão (fechado/escondido)
+            document.querySelector('#senhaUsuario + button').textContent = '👀';
+            document.querySelector('#senhaMestraInput + button').textContent = '👀';
         }
 
         // 👂 TEMPO REAL — atualiza automaticamente!
