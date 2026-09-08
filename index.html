@@ -199,17 +199,17 @@
             ({ db, ref, set, get, push, remove, onValue, off } = window.firebaseDB);
         }
 
-        // 👀 FUNÇÃO CORRIGIDA — FINALMENTE CERTINHA!
+        // 👀 FUNÇÃO FINALMENTE CERTINHA — SEM INVERSÃO!
         // 👀 = MOSTRA SENHA | 🙈 = ESCONDE SENHA
         function mostrarSenha(idInput, botao) {
             const input = document.getElementById(idInput);
             
-            // OLHO ABERTO → MOSTRA a senha e troca para fechado
+            // 👀 ABERTO → MOSTRA → vira 🙈
             if (botao.textContent === '👀') {
                 input.type = 'text';
                 botao.textContent = '🙈';
-            } 
-            // OLHO FECHADO → ESCONDE a senha e troca para aberto
+            }
+            // 🙈 FECHADO → ESCONDE → vira 👀
             else {
                 input.type = 'password';
                 botao.textContent = '👀';
@@ -343,7 +343,7 @@
             document.getElementById('nomeUsuario').value = '';
             document.getElementById('senhaUsuario').value = '';
             document.getElementById('senhaMestraInput').value = '';
-            // Reseta os campos — senha escondida + olho aberto
+            // Reseta: senha escondida + olho aberto
             document.getElementById('senhaUsuario').type = 'password';
             document.querySelector('#senhaUsuario + button').textContent = '👀';
             document.getElementById('senhaMestraInput').type = 'password';
