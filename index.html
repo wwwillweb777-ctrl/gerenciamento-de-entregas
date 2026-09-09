@@ -187,6 +187,7 @@
     </div>
 
     <script>
+        // 🔑 SENHA MESTRA — MUDA AQUI QUANDO QUISER!
         const SENHA_MESTRA = 'motoboy2026';
         const FUSO = "America/Sao_Paulo";
 
@@ -201,19 +202,13 @@
             ({ db, ref, set, get, push, remove, onValue, off } = window.firebaseDB);
         }
 
-        // ✅ FUNÇÃO FINALMENTE CERTINHA — OLHO ABERTO = SENHA VISÍVEL!!!
-        // 👀 = SENHA VISÍVEL → clica → ESCONDE → vira 🙈
-        // 🙈 = SENHA ESCONDIDA → clica → MOSTRA → vira 👀
+        // ✅ OLHO ABERTO = SENHA VISÍVEL
         function mostrarSenha(idInput, botao) {
             const input = document.getElementById(idInput);
-            
-            // 👀 ABERTO → ESCONDE → vira 🙈
             if (botao.textContent === '👀') {
                 input.type = 'password';
                 botao.textContent = '🙈';
-            }
-            // 🙈 FECHADO → MOSTRA → vira 👀
-            else {
+            } else {
                 input.type = 'text';
                 botao.textContent = '👀';
             }
@@ -226,15 +221,23 @@
             setTimeout(() => el.className = 'mensagem', 4000);
         }
 
+        // ✅ ACEITA SENHA COM ESPAÇO, SEM ESPAÇO, MAIÚSCULA OU MINÚSCULA!
         async function entrarAdministrador() {
             await esperarFirebase();
-            const senha = document.getElementById('senhaMestraInput').value.trim();
-            if (!senha) return alert('Digite a senha!');
-            if (senha !== SENHA_MESTRA) return alert('❌ Senha incorreta!');
+            const senhaDigitada = document.getElementById('senhaMestraInput').value;
             
-            document.getElementById('telaSenha').style.display = 'none';
-            document.getElementById('telaAdmin').style.display = 'block';
-            listarUsuarios();
+            // LIMPA: tira todos os espaços e deixa tudo minúsculo
+            const limpa = (texto) => texto.replace(/\s+/g, '').toLowerCase();
+            
+            if (!limpa(senhaDigitada)) return alert('Digite a senha mestra!');
+            
+            if (limpa(senhaDigitada) === limpa(SENHA_MESTRA)) {
+                document.getElementById('telaSenha').style.display = 'none';
+                document.getElementById('telaAdmin').style.display = 'block';
+                listarUsuarios();
+            } else {
+                alert('❌ Senha incorreta!');
+            }
         }
 
         async function listarUsuarios() {
