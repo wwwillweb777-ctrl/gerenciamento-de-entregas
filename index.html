@@ -129,7 +129,6 @@
             <div class="input-group">
                 <label>Senha de Acesso</label>
                 <div class="input-wrapper">
-                    <!-- ✅ COMEÇA VISÍVEL + OLHO ABERTO 👀 -->
                     <input type="text" id="senhaUsuario" placeholder="Crie ou digite sua senha...">
                     <button type="button" class="btn-olho" onclick="mostrarSenha('senhaUsuario', this)">👀</button>
                 </div>
@@ -138,11 +137,10 @@
             <button onclick="entrarSistema()">🔑 Entrar / Criar Conta</button>
             
             <div class="caixa-adm">
-                <h3>🔐 Área Administrativa</h3>
+                <h3>👑 Área Administrativa</h3>
                 <div class="input-group">
                     <label>Senha Mestra</label>
                     <div class="input-wrapper">
-                        <!-- ✅ COMEÇA VISÍVEL + OLHO ABERTO 👀 -->
                         <input type="text" id="senhaMestraInput" placeholder="Digite a senha mestra...">
                         <button type="button" class="btn-olho" onclick="mostrarSenha('senhaMestraInput', this)">👀</button>
                     </div>
@@ -152,7 +150,7 @@
         </div>
 
         <div id="telaAdmin" class="tela-admin">
-            <h1>🔐 Painel Administrativo</h1>
+            <h1>👑 Painel Administrativo</h1>
             <button class="btn-voltar-adm" onclick="voltarParaAdmin()">⬅️ Voltar ao Login</button>
             <button class="btn-sair" onclick="sairSistema()">🚪 Sair</button>
             <div class="painel-admin">
@@ -221,12 +219,11 @@
             setTimeout(() => el.className = 'mensagem', 4000);
         }
 
-        // ✅ ACEITA SENHA COM ESPAÇO, SEM ESPAÇO, MAIÚSCULA OU MINÚSCULA!
+        // ✅ ÁREA ADMINISTRATIVA — ACEITA COM OU SEM ESPAÇO
         async function entrarAdministrador() {
             await esperarFirebase();
             const senhaDigitada = document.getElementById('senhaMestraInput').value;
             
-            // LIMPA: tira todos os espaços e deixa tudo minúsculo
             const limpa = (texto) => texto.replace(/\s+/g, '').toLowerCase();
             
             if (!limpa(senhaDigitada)) return alert('Digite a senha mestra!');
@@ -314,6 +311,7 @@
             listarUsuarios();
         }
 
+        // ✅ LOGIN COMUM — NÃO REVELA A SENHA MESTRA EM NENHUM CASO!
         async function entrarSistema() {
             await esperarFirebase();
             veioDoAdmin = false;
@@ -321,7 +319,9 @@
             const senha = document.getElementById('senhaUsuario').value.trim();
             
             if (!nome || !senha) return alert('Preencha tudo!');
-            if (senha === SENHA_MESTRA) return alert('Use a Área Administrativa!');
+            
+            // 🚨 REMOVIDO O AVISO QUE REVELAVA A SENHA MESTRA!
+            // Mesmo que a senha seja igual à mestra → entra normal como usuário comum!
 
             const chave = `${nome}_${senha}`;
             const snap = await get(ref(db, `usuarios/${chave}`));
