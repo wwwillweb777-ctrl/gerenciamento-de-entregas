@@ -129,7 +129,8 @@
             <div class="input-group">
                 <label>Senha de Acesso</label>
                 <div class="input-wrapper">
-                    <input type="password" id="senhaUsuario" placeholder="Crie ou digite sua senha...">
+                    <!-- ✅ COMEÇA VISÍVEL + OLHO ABERTO 👀 -->
+                    <input type="text" id="senhaUsuario" placeholder="Crie ou digite sua senha...">
                     <button type="button" class="btn-olho" onclick="mostrarSenha('senhaUsuario', this)">👀</button>
                 </div>
             </div>
@@ -141,7 +142,8 @@
                 <div class="input-group">
                     <label>Senha Mestra</label>
                     <div class="input-wrapper">
-                        <input type="password" id="senhaMestraInput" placeholder="Digite a senha mestra...">
+                        <!-- ✅ COMEÇA VISÍVEL + OLHO ABERTO 👀 -->
+                        <input type="text" id="senhaMestraInput" placeholder="Digite a senha mestra...">
                         <button type="button" class="btn-olho" onclick="mostrarSenha('senhaMestraInput', this)">👀</button>
                     </div>
                 </div>
@@ -199,19 +201,20 @@
             ({ db, ref, set, get, push, remove, onValue, off } = window.firebaseDB);
         }
 
-        // 👀 FUNÇÃO FINALMENTE CERTINHA — SEM INVERSÃO!
-        // 👀 = MOSTRA SENHA | 🙈 = ESCONDE SENHA
+        // ✅ FUNÇÃO FINALMENTE CERTINHA — OLHO ABERTO = SENHA VISÍVEL!!!
+        // 👀 = SENHA VISÍVEL → clica → ESCONDE → vira 🙈
+        // 🙈 = SENHA ESCONDIDA → clica → MOSTRA → vira 👀
         function mostrarSenha(idInput, botao) {
             const input = document.getElementById(idInput);
             
-            // 👀 ABERTO → MOSTRA → vira 🙈
+            // 👀 ABERTO → ESCONDE → vira 🙈
             if (botao.textContent === '👀') {
-                input.type = 'text';
+                input.type = 'password';
                 botao.textContent = '🙈';
             }
-            // 🙈 FECHADO → ESCONDE → vira 👀
+            // 🙈 FECHADO → MOSTRA → vira 👀
             else {
-                input.type = 'password';
+                input.type = 'text';
                 botao.textContent = '👀';
             }
         }
@@ -341,12 +344,12 @@
             document.getElementById('telaDados').style.display = 'none';
             document.getElementById('telaAdmin').style.display = 'none';
             document.getElementById('nomeUsuario').value = '';
+            // ✅ RESETA: VISÍVEL + OLHO ABERTO
             document.getElementById('senhaUsuario').value = '';
-            document.getElementById('senhaMestraInput').value = '';
-            // Reseta: senha escondida + olho aberto
-            document.getElementById('senhaUsuario').type = 'password';
+            document.getElementById('senhaUsuario').type = 'text';
             document.querySelector('#senhaUsuario + button').textContent = '👀';
-            document.getElementById('senhaMestraInput').type = 'password';
+            document.getElementById('senhaMestraInput').value = '';
+            document.getElementById('senhaMestraInput').type = 'text';
             document.querySelector('#senhaMestraInput + button').textContent = '👀';
         }
 
